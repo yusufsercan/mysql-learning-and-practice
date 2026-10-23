@@ -1,6 +1,8 @@
 # 📌 01 - SQL Temelleri ve DDL/DML Pratikleri
 
-Bu klasör; ilişkisel veritabanı yönetim sistemlerinin (RDBMS) temel yapı taşlarını, tablo tanımlama kurallarını (DDL), veri işleme komutlarını (DML) ve SQL veri tiplerini kapsamaktadır.
+Bu klasör; ilişkisel veritabanı yönetim sistemlerinin (RDBMS) temel yapı taşlarını, tablo tanımlama kurallarını (DDL), veri işleme komutlarını (DML) ve SQL veri tiplerini kapsamaktadır. İçerikler; üniversitedeki **Veritabanı Yönetim Sistemleri** dersi müfredatı ile **Murat Yücedağ SQL Eğitim Serisi**'nin birlikte harmanlanıp MySQL standartlarına uyarlanmasıyla oluşturulmuştur.
+
+> ⚠️ **Not:** Bu klasördeki tüm kodlar, sorgular ve açıklamalar tamamen **üniversite ders takibi, kişisel öğrenme ve pratik yapma** amacıyla hazırlanmıştır. Herhangi bir profesyonel yeterlilik, resmi sertifikasyon veya nihai üretim (production) standardı iddiası taşımamaktadır.
 
 ---
 
