@@ -10,8 +10,9 @@ The content is synthesized from university coursework (**Database Management Sys
 
 ## 📂 Contents & Script Directory
 
-* 1. 📄 DDL & DML Fundamentals (`01_ddl_ve_dml_temelleri.sql`)
-- **Integrity Constraints:**
+### 🔹 DDL & DML Fundamentals
+**Source:** [`01_ddl_ve_dml_temelleri.sql`](./01_ddl_ve_dml_temelleri.sql)- **Integrity Constraints:**
+
   - `PRIMARY KEY`: Enforces Entity Integrity by ensuring unique row identification and disallowing `NULL` values.
   - `NOT NULL`: Enforces mandatory field input at the schema level.
 - **Data Manipulation (DML):**
