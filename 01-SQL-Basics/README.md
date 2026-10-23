@@ -10,7 +10,7 @@ The content is synthesized from university coursework (**Database Management Sys
 
 ## 📂 Contents & Script Directory
 
-### 1. `01_ddl_ve_dml_temelleri.sql`
+### 📄 [`01_ddl_ve_dml_temelleri.sql`](./01_ddl_ve_dml_temelleri.sql)
 - **Schema & Table Management:** Essential commands including `CREATE DATABASE`, `USE`, `DROP TABLE IF EXISTS`, and `CREATE TABLE`.
 - **Integrity Constraints:**
   - `PRIMARY KEY`: Enforces Entity Integrity by ensuring unique row identification and disallowing `NULL` values.
