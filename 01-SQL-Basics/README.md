@@ -10,9 +10,9 @@ The content is synthesized from university coursework (**Database Management Sys
 
 ## 📂 Contents & Script Directory
 
-### 🔹 DDL & DML Fundamentals
-**Source:** [`01_ddl_ve_dml_temelleri.sql`](./01_ddl_ve_dml_temelleri.sql)- **Integrity Constraints:**
-
+### 📄 [`01_ddl_ve_dml_temelleri.sql`](./01_ddl_ve_dml_temelleri.sql) — DDL & DML Fundamentals
+- **Schema & Table Management:** Essential commands including `CREATE DATABASE`, `USE`, `DROP TABLE IF EXISTS`, and `CREATE TABLE`.
+- **Integrity Constraints:**
   - `PRIMARY KEY`: Enforces Entity Integrity by ensuring unique row identification and disallowing `NULL` values.
   - `NOT NULL`: Enforces mandatory field input at the schema level.
 - **Data Manipulation (DML):**
@@ -24,9 +24,11 @@ The content is synthesized from university coursework (**Database Management Sys
   - `Error 1064 (Syntax Error)`: Preventing trailing commas after the final column definition.
   - `Error 1062 (Duplicate Entry)`: Resolving primary key collision caused by duplicate identifier insertion.
 
-### 2. `02_veri_tipleri_rehberi.sql`
+---
+
+### 📄 [`02_veri_tipleri_rehberi.sql`](./02_veri_tipleri_rehberi.sql) — Data Types Reference
 - **Numeric Types:** `BIGINT` (8-byte large integers), `INT` (standard 4-byte integers), `SMALLINT` (2-byte), `TINYINT` (1-byte), and `BOOLEAN` (logical bit/flag).
-- **Financial Precision:** Implementing `DECIMAL(p, s)` to prevent floating-point rounding anomalies typical of `FLOAT`/`DOUBLE`.
+- **Financial Precision:** Implementing `DECIMAL(p, s)` to prevent floating-point rounding anomalies typical of `FLOAT` / `DOUBLE`.
 - **String Types:** Fixed-length `CHAR(n)` for static patterns (e.g., National ID) vs variable-length `VARCHAR(n)` for dynamic text.
 - **Temporal Types:** `DATE` (calendar dates), `DATETIME` (combined timestamp), `TIMESTAMP` (timezone-aware UTC storage), and `TIME` (duration/time of day).
 - **Spatial & Specialized:** `GEOMETRY` for spatial/GIS data and `CHAR(36)` optimized for Universal Unique Identifiers (UUID v4).
