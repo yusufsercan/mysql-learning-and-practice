@@ -18,6 +18,19 @@ This repository contains SQL queries, database exercises, and practical examples
 
 ---
 
+## 🛠️ Methodology & Study Workflow
+
+The SQL scripts and theoretical notes in this repository are derived directly from my own university lectures and structured tutorial sessions. 
+
+To maintain high documentation standards and bridge dialect differences:
+- **Core Logic & Hands-on Practice:** All database queries, schema drafts, and lab exercises are written and validated personally during study sessions.
+- **AI-Assisted Structuring & Translation:** AI tooling is utilized as an editorial assistant to adapt T-SQL/MSSQL tutorial logic into strict MySQL ANSI standards, format bilingual technical annotations, and enforce consistent documentation formatting.
+
+> In essence, AI serves as an architectural reviewer and formatting companion; the problem-solving, debugging, and learning progression represent my personal academic effort.
+
+
+---
+
 ## 💻 Development Environment
 
 - **Database System:** MySQL
