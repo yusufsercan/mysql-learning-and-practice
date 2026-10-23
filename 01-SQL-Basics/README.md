@@ -1,52 +1,54 @@
-# 📌 01 - SQL Temelleri ve DDL/DML Pratikleri
+# 📌 01 - SQL Basics & DDL/DML Practices
 
-Bu klasör; ilişkisel veritabanı yönetim sistemlerinin (RDBMS) temel yapı taşlarını, tablo tanımlama kurallarını (DDL), veri işleme komutlarını (DML) ve SQL veri tiplerini kapsamaktadır. İçerikler; üniversitedeki **Veritabanı Yönetim Sistemleri** dersi müfredatı ile **Murat Yücedağ SQL Eğitim Serisi**'nin birlikte harmanlanıp MySQL standartlarına uyarlanmasıyla oluşturulmuştur.
+This directory covers the foundational building blocks of Relational Database Management Systems (RDBMS), Data Definition Language (DDL) constraints, Data Manipulation Language (DML) operations, and comprehensive SQL data types. 
 
-> ⚠️ **Not:** Bu klasördeki tüm kodlar, sorgular ve açıklamalar tamamen **üniversite ders takibi, kişisel öğrenme ve pratik yapma** amacıyla hazırlanmıştır. Herhangi bir profesyonel yeterlilik, resmi sertifikasyon veya nihai üretim (production) standardı iddiası taşımamaktadır.
+The content is synthesized from university coursework (**Database Management Systems**) and **Murat Yücedağ's SQL Lecture Series**, adapted and standardized directly for MySQL environments.
+
+> ⚠️ **Note:** All SQL scripts, queries, and architectural notes in this directory are prepared strictly for **academic tracking, personal learning, and practical laboratory exercises**. They do not claim any official qualification, professional certification, or production-grade architecture status.
 
 ---
 
-## 📂 İçerik ve Dosya Rehberi
+## 📂 Contents & Script Directory
 
 ### 1. `01_ddl_ve_dml_temelleri.sql`
-- **Şema ve Tablo Yönetimi:** `CREATE DATABASE`, `USE`, `DROP TABLE IF EXISTS` ve `CREATE TABLE` komutları.
-- **Kısıtlar (Constraints):**
-  - `PRIMARY KEY`: Tabloda varlık bütünlüğünü (Entity Integrity) sağlar; sütunun benzersiz olmasını zorunlu kılar ve `NULL` değer kabul etmez.
-  - `NOT NULL`: Zorunlu veri giriş alanlarını tanımlar.
-- **Veri Manipülasyonu (DML):**
-  - Tek satırlı `INSERT INTO ... VALUES (...)` kullanımı.
-  - Çoklu (toplu) veri ekleme yapısı.
-  - `SELECT *` ile kayıt listeleme.
-  - `TRUNCATE TABLE` ile tablo yapısını bozmadan tüm veriyi sıfırlama.
-- **Karşılaşılan Hatalar ve Mühendislik Çözümleri:**
-  - `Error 1064 (Syntax Error)`: Tablo oluştururken son sütunun ardından virgül konulmaması kuralı.
-  - `Error 1062 (Duplicate Entry)`: Önceden eklenmiş bir `PRIMARY KEY` değerinin tekrar girilmeye çalışılması durumu.
+- **Schema & Table Management:** Essential commands including `CREATE DATABASE`, `USE`, `DROP TABLE IF EXISTS`, and `CREATE TABLE`.
+- **Integrity Constraints:**
+  - `PRIMARY KEY`: Enforces Entity Integrity by ensuring unique row identification and disallowing `NULL` values.
+  - `NOT NULL`: Enforces mandatory field input at the schema level.
+- **Data Manipulation (DML):**
+  - Single-row `INSERT INTO ... VALUES (...)` statements.
+  - Multi-row bulk insertion syntax.
+  - Data retrieval via `SELECT *`.
+  - Rapid table truncation via `TRUNCATE TABLE` (resets data while preserving the table schema).
+- **Encountered Errors & Engineering Fixes:**
+  - `Error 1064 (Syntax Error)`: Preventing trailing commas after the final column definition.
+  - `Error 1062 (Duplicate Entry)`: Resolving primary key collision caused by duplicate identifier insertion.
 
 ### 2. `02_veri_tipleri_rehberi.sql`
-- **Sayısal Tipler:** `BIGINT` (8 byte devasa sayılar), `INT` (standart tam sayı), `SMALLINT` (2 byte), `TINYINT` (1 byte), `BOOLEAN` (1 bit mantıksal).
-- **Finans ve Hassasiyet:** Yuvarlama hatalarını önlemek için `FLOAT` yerine kesin hesaplama sunan `DECIMAL(p, s)` kullanımı.
-- **Metin Tipleri:** `CHAR(n)` (sabit uzunluklu alanlar, örn: TC No) ve `VARCHAR(n)` (değişken uzunluklu metinler).
-- **Zaman Tipleri:** `DATE` (sadece gün), `DATETIME` (tarih + saat), `TIMESTAMP` (saat dilimi duyarlı) ve `TIME` (sadece saat).
-- **Özel Alanlar:** Harita/GIS verileri için `GEOMETRY`, evrensel kimlikler için `UUID` formatında `CHAR(36)`.
+- **Numeric Types:** `BIGINT` (8-byte large integers), `INT` (standard 4-byte integers), `SMALLINT` (2-byte), `TINYINT` (1-byte), and `BOOLEAN` (logical bit/flag).
+- **Financial Precision:** Implementing `DECIMAL(p, s)` to prevent floating-point rounding anomalies typical of `FLOAT`/`DOUBLE`.
+- **String Types:** Fixed-length `CHAR(n)` for static patterns (e.g., National ID) vs variable-length `VARCHAR(n)` for dynamic text.
+- **Temporal Types:** `DATE` (calendar dates), `DATETIME` (combined timestamp), `TIMESTAMP` (timezone-aware UTC storage), and `TIME` (duration/time of day).
+- **Spatial & Specialized:** `GEOMETRY` for spatial/GIS data and `CHAR(36)` optimized for Universal Unique Identifiers (UUID v4).
 
 ---
 
-## 🛠️ Çeviri Kılavuzu (MSSQL / T-SQL ➡️ MySQL)
+## 🛠️ Syntax Translation Guide (MSSQL / T-SQL ➡️ MySQL)
 
-Murat Yücedağ eğitim serisinde gösterilen MSSQL sözdizimlerinin MySQL standartlarındaki karşılıkları:
+Mapping table between Microsoft SQL Server implementations used in video references and MySQL ANSI standards used in this repository:
 
-| Kavram / Tip | MSSQL (T-SQL) | MySQL (Kullandığımız Standart) |
+| Concept / Type | MSSQL (T-SQL) | MySQL (Repository Standard) |
 | :--- | :--- | :--- |
-| **Görsel / Dosya Saklama** | `image` | `VARCHAR(255)` (Yol tutulur) veya `LONGBLOB` |
-| **Büyük Metin** | `nvarchar(MAX)` | `LONGTEXT` |
-| **Mantıksal (0/1)** | `bit` | `BOOLEAN` / `TINYINT(1)` |
-| **Kısa Tarih** | `smalldatetime` | `DATETIME` |
-| **Para Birimi** | `money` / `smallmoney` | `DECIMAL(19,4)` / `DECIMAL(10,2)` |
-| **Benzersiz Kimlik** | `uniqueidentifier` | `CHAR(36)` (UUID) |
-| **Unicode Metin** | `nchar(10)` | `CHAR(10)` (utf8mb4) |
+| **Media / File Storage** | `image` | `VARCHAR(255)` (File Path) or `LONGBLOB` |
+| **Large Text** | `nvarchar(MAX)` | `LONGTEXT` |
+| **Boolean Flag** | `bit` | `BOOLEAN` / `TINYINT(1)` |
+| **Compact Timestamp** | `smalldatetime` | `DATETIME` |
+| **Currency** | `money` / `smallmoney` | `DECIMAL(19,4)` / `DECIMAL(10,2)` |
+| **Unique Identifier** | `uniqueidentifier` | `CHAR(36)` (UUID) |
+| **Unicode Characters** | `nchar(10)` | `CHAR(10)` (utf8mb4) |
 
 ---
 
-## 💡 Mühendislik Notları
-> - **Depolama Mantığı:** Resim, video veya PDF gibi büyük dosyaların saf ikili (binary) verileri veritabanı motorunu şişirmemek adına doğrudan tabloya gömülmez; sunucu dosya yolunun (`path`) metin olarak saklanması esastır.
-> - **Sözdizimi İzolasyonu:** Her SQL komutunun bağımsız çalışabilmesi için satır sonlarına noktalı virgül (`;`) eklenmelidir.
+## 💡 Engineering Best Practices
+> - **Storage Decoupling:** Large binary files (images, PDFs, documents) must not be stored directly inside database rows to avoid severe engine and I/O bottlenecks; storing local paths or object storage URLs as `VARCHAR` is standard practice.
+> - **Statement Isolation:** Every independent SQL statement must terminate with a semicolon (`;`) to guarantee deterministic query parsing and prevent engine execution errors.
