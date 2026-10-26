@@ -35,6 +35,24 @@ The content is synthesized from university coursework (**Database Management Sys
 
 ---
 
+### 📄 [`03_alter_ve_tablo_guncelleme.sql`](./03_alter_ve_tablo_guncelleme.sql) — Dynamic Schema Alteration & Column Operations
+
+* **Schema Evolution (`ALTER TABLE`):** Modifying existing table definitions dynamically without dropping or recreating the table entity.
+* **Column Insertion (`ADD`):**
+  * Single-column addition with specific data types (`TINYINT`, `VARCHAR`).
+  * Multi-column atomic additions using parenthetical definition lists `(col1 TYPE, col2 TYPE)`.
+* **Column Deletion (`DROP COLUMN`):**
+  * Removing single obsolete attributes (`DROP COLUMN BaslamaTarih`).
+  * Bulk column drops within a single query execution.
+* **Schema Verification (`DESCRIBE` / `DESC`):**
+  * Inspecting table blueprints, column structures, nullability, default values, and key constraints following DDL modifications.
+* **Dialect Translation & Engineering Fixes:**
+  * **MSSQL to MySQL Mapping:** Replaced MSSQL-specific `smalldatetime` with standard MySQL `DATETIME`.
+  * **Multi-Column Syntax:** Handled MySQL requirement for grouped parentheses during multi-column `ADD` operations to prevent syntax violations.
+  * **Data Loss Precaution:** Documented that `DROP COLUMN` permanently purges associated data without rollback capabilities.
+
+---
+
 ## 🛠️ Syntax Translation Guide (MSSQL / T-SQL ➡️ MySQL)
 
 Mapping table between Microsoft SQL Server implementations used in video references and MySQL ANSI standards used in this repository:
