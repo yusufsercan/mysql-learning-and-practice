@@ -46,3 +46,95 @@ SELECT * FROM PersonelBilgi;
 -- 5. TABLO BAKIMI VE SIFIRLAMA
 -- TRUNCATE komutu: Tablonun şemasını silmez, içindeki tüm verileri tek hamlede temizler.
 -- TRUNCATE TABLE PersonelBilgi;
+-- SENARYO DENEMESİ:
+-- 1. Tabloya test için geçici bir kayıt ekleyelim:
+INSERT INTO PersonelBilgi (PersonelNumara, PersonelAd, PersonelSoyad, PersonelSehir)
+VALUES ('99', 'Geçici', 'Kayıt', 'Ankara');
+
+-- 2. Kaydın eklendiğini teyit edelim:
+SELECT * FROM PersonelBilgi;
+
+-- 3. TRUNCATE komutu ile tablo verilerini sıfırlayalım:
+-- Tablonun fiziksel yapısı (şeması, kısıtları, sütunları) korunur; içindeki tüm satırlar boşaltılır.
+TRUNCATE TABLE PersonelBilgi;
+
+-- 4. Doğrulama: Tablo boş dönmeli ancak DESCRIBE tablonun sağlam kaldığını göstermelidir.
+SELECT * FROM PersonelBilgi;
+DESCRIBE PersonelBilgi;
+
+
+-- ------------------------------------------------------------------------------
+-- MÜHENDİSLİK NOTU: TRUNCATE TABLE vs DELETE FROM KARŞILAŞTIRMASI
+-- ------------------------------------------------------------------------------
+-- 1. DDL (TRUNCATE) vs DML (DELETE):
+--    - DELETE bir DML komutudur; veritabanı motoru her bir satırı tek tek tarar,
+--      satır kilidi (row-level lock) koyar ve siler. Milyonlarca satırda sistemi kilitler.
+--    - TRUNCATE bir DDL komutudur; satırları tek tek silmez, tablonun bağlı olduğu veri
+--      sayfalarını doğrudan bellekten boşa çıkarır. 10 milyon kayıt bile saniyeler içinde sıfırlanır.
+--
+-- 2. LOGLAMA (TRANSACTION LOG) VE GERİ ALINABİLİRLİK (ROLLBACK):
+--    - DELETE her silinen satır için işlem günlüğü (Undo/Redo log) üretir; geri döndürülebilir.
+--    - TRUNCATE satır bazlı günlük tutmaz; bu sayede disk I/O yükü sıfıra yakındır ancak
+--      üretim (production) ortamında kazayla çalıştırılırsa geri dönüşü yoktur.
+--
+-- 3. SAYACIN SIFIRLANMASI (AUTO_INCREMENT RESET):
+--    - DELETE ile tüm tabloyu silseniz bile otomatik artan ID sayacı sıfırlanmaz; kaldığı
+--      en son değerden (örn: 501'den) devam eder.
+--    - TRUNCATE tablonun kimlik sayacını varsayılana çeker; eklenecek ilk kayıt tekrar 1'den başlar.
+--
+-- 4. ŞARTLI SİLME (WHERE CLAUSE):
+--    - DELETE FROM Tablo WHERE id = 5; şeklinde filtrelenebilir.
+--    - TRUNCATE komutunda 'WHERE' şartı KULLANILAMAZ; işlem her zaman tüm tabloyu hedefler.
+--
+-- 5. BÜTÜNLÜK KISITLARI (FOREIGN KEY ENGELİ):
+--    - Başka bir tabloya FOREIGN KEY ile referans veren veya referans edilen tablolarda
+--      veri bütünlüğünü (Referential Integrity) korumak adına MySQL doğrudan TRUNCATE izni vermez.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
