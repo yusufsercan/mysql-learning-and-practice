@@ -1,74 +1,146 @@
+
 # 📌 01 - SQL Basics & DDL/DML Practices
 
-This directory covers the foundational building blocks of Relational Database Management Systems (RDBMS), Data Definition Language (DDL) constraints, Data Manipulation Language (DML) operations, and comprehensive SQL data types. 
+This directory documents my introductory MySQL exercises, covering database creation, table structures, SQL data types, constraints, data manipulation, and schema modifications.
 
-The content is synthesized from university coursework (**Database Management Systems**) and **Murat Yücedağ's SQL Lecture Series**, adapted and standardized directly for MySQL environments.
+The exercises are based on my university Database Management Systems coursework and **Murat Yücedağ's SQL tutorial series**.
 
-> ⚠️ **Note:** All SQL scripts, queries, and architectural notes in this directory are prepared strictly for **academic tracking, personal learning, and practical laboratory exercises**. They do not claim any official qualification, professional certification, or production-grade architecture status.
+Since the tutorial series primarily uses Microsoft SQL Server (T-SQL), relevant examples have been adapted to MySQL syntax.
 
 ---
 
 ## 📂 Contents & Script Directory
 
-### 📄 [`01_ddl_ve_dml_temelleri.sql`](./01_ddl_ve_dml_temelleri.sql) — DDL & DML Fundamentals
-- **Schema & Table Management:** Essential commands including `CREATE DATABASE`, `USE`, `DROP TABLE IF EXISTS`, and `CREATE TABLE`.
-- **Integrity Constraints:**
-  - `PRIMARY KEY`: Enforces Entity Integrity by ensuring unique row identification and disallowing `NULL` values.
-  - `NOT NULL`: Enforces mandatory field input at the schema level.
-- **Data Manipulation (DML):**
-  - Single-row `INSERT INTO ... VALUES (...)` statements.
-  - Multi-row bulk insertion syntax.
-  - Data retrieval via `SELECT *`.
-  - Rapid table truncation via `TRUNCATE TABLE` (resets data while preserving the table schema).
-- **Encountered Errors & Engineering Fixes:**
-  - `Error 1064 (Syntax Error)`: Preventing trailing commas after the final column definition.
-  - `Error 1062 (Duplicate Entry)`: Resolving primary key collision caused by duplicate identifier insertion.
+### 📄 [01_ddl_ve_dml_temelleri.sql](./01_ddl_ve_dml_temelleri.sql) — DDL, DML & Basic Queries
+
+**Topics Covered:**
+- **Database Management:** `CREATE DATABASE`, `USE`.
+- **Table Creation:** `CREATE TABLE`, `DROP TABLE IF EXISTS`.
+- **Integrity Constraints:** `PRIMARY KEY`, `NOT NULL`.
+- **Data Manipulation:** Single-row and multi-row `INSERT INTO`.
+- **Data Retrieval:** `SELECT *`, selecting specific columns.
+- **Table Inspection:** `DESCRIBE`.
+- **Table Maintenance:** `TRUNCATE TABLE` and its differences from `DELETE` and `DROP`.
+- **Error Handling:** Common MySQL errors such as `1064`, `1062`, `1046`, and `1050`.
+
+**Key Learning Outcomes:**
+- Understanding DDL, DML, and DQL classifications.
+- Creating tables with appropriate constraints.
+- Inserting and retrieving records.
+- Distinguishing between table deletion and data removal.
+- Recognizing potentially destructive SQL operations.
 
 ---
 
-### 📄 [`02_veri_tipleri_rehberi.sql`](./02_veri_tipleri_rehberi.sql) — Data Types Reference
-- **Numeric Types:** `BIGINT` (8-byte large integers), `INT` (standard 4-byte integers), `SMALLINT` (2-byte), `TINYINT` (1-byte), and `BOOLEAN` (logical bit/flag).
-- **Financial Precision:** Implementing `DECIMAL(p, s)` to prevent floating-point rounding anomalies typical of `FLOAT` / `DOUBLE`.
-- **String Types:** Fixed-length `CHAR(n)` for static patterns (e.g., National ID) vs variable-length `VARCHAR(n)` for dynamic text.
-- **Temporal Types:** `DATE` (calendar dates), `DATETIME` (combined timestamp), `TIMESTAMP` (timezone-aware UTC storage), and `TIME` (duration/time of day).
-- **Spatial & Specialized:** `GEOMETRY` for spatial/GIS data and `CHAR(36)` optimized for Universal Unique Identifiers (UUID v4).
+### 📄 [02_veri_tipleri_rehberi.sql](./02_veri_tipleri_rehberi.sql) — MySQL Data Types
+
+**Topics Covered:**
+- **Integer Types:** `TINYINT`, `SMALLINT`, `MEDIUMINT`, `INT`, `BIGINT`.
+- **Integer Ranges:** `SIGNED` vs. `UNSIGNED`.
+- **Exact and Approximate Numbers:** `DECIMAL`, `NUMERIC`, `FLOAT`.
+- **String Types:** `CHAR`, `VARCHAR`.
+- **Boolean Representation:** `BOOLEAN` and `TINYINT(1)`.
+- **Date and Time:** `DATE`, `TIME`, `DATETIME`, `TIMESTAMP`.
+- **Binary and Large Text:** `BINARY`, `LONGTEXT`.
+- **Spatial Data:** `GEOMETRY`.
+- **Identifiers:** UUID representation using `CHAR(36)`.
+- **Practical Exercises:** Creating tables and inserting sample values.
+
+**Key Learning Outcomes:**
+- Selecting appropriate data types.
+- Understanding numeric ranges and precision.
+- Comparing fixed-length and variable-length strings.
+- Distinguishing exact decimal values from approximate floating-point values.
+- Understanding differences between SQL Server and MySQL data types.
 
 ---
 
-### 📄 [`03_alter_ve_tablo_guncelleme.sql`](./03_alter_ve_tablo_guncelleme.sql) — Dynamic Schema Alteration & Column Operations
+### 📄 [03_alter_ve_tablo_guncelleme.sql](./03_alter_ve_tablo_guncelleme.sql) — ALTER TABLE & Schema Modifications
 
-* **Schema Evolution (`ALTER TABLE`):** Modifying existing table definitions dynamically without dropping or recreating the table entity.
-* **Column Insertion (`ADD`):**
-  * Single-column addition with specific data types (`TINYINT`, `VARCHAR`).
-  * Multi-column atomic additions using parenthetical definition lists `(col1 TYPE, col2 TYPE)`.
-* **Column Deletion (`DROP COLUMN`):**
-  * Removing single obsolete attributes (`DROP COLUMN BaslamaTarih`).
-  * Bulk column drops within a single query execution.
-* **Schema Verification (`DESCRIBE` / `DESC`):**
-  * Inspecting table blueprints, column structures, nullability, default values, and key constraints following DDL modifications.
-* **Dialect Translation & Engineering Fixes:**
-  * **MSSQL to MySQL Mapping:** Replaced MSSQL-specific `smalldatetime` with standard MySQL `DATETIME`.
-  * **Multi-Column Syntax:** Handled MySQL requirement for grouped parentheses during multi-column `ADD` operations to prevent syntax violations.
-  * **Data Loss Precaution:** Documented that `DROP COLUMN` permanently purges associated data without rollback capabilities.
+**Topics Covered:**
+- **Schema Evolution:** Modifying existing tables with `ALTER TABLE`.
+- **Column Addition:** `ADD COLUMN` and multi-column additions.
+- **Column Removal:** `DROP COLUMN` and multi-column removal.
+- **Schema Inspection:** `DESCRIBE`, `DESC`.
+- **Table Definitions:** `SHOW CREATE TABLE`.
+- **Constraints:** Understanding how structural changes may affect keys and indexes.
+- **Data Safety:** Risks associated with destructive schema modifications.
 
----
-
-## 🛠️ Syntax Translation Guide (MSSQL / T-SQL ➡️ MySQL)
-
-Mapping table between Microsoft SQL Server implementations used in video references and MySQL ANSI standards used in this repository:
-
-| Concept / Type | MSSQL (T-SQL) | MySQL (Repository Standard) |
-| :--- | :--- | :--- |
-| **Media / File Storage** | `image` | `VARCHAR(255)` (File Path) or `LONGBLOB` |
-| **Large Text** | `nvarchar(MAX)` | `LONGTEXT` |
-| **Boolean Flag** | `bit` | `BOOLEAN` / `TINYINT(1)` |
-| **Compact Timestamp** | `smalldatetime` | `DATETIME` |
-| **Currency** | `money` / `smallmoney` | `DECIMAL(19,4)` / `DECIMAL(10,2)` |
-| **Unique Identifier** | `uniqueidentifier` | `CHAR(36)` (UUID) |
-| **Unicode Characters** | `nchar(10)` | `CHAR(10)` (utf8mb4) |
+**Key Learning Outcomes:**
+- Modifying table structures without recreating tables.
+- Adding and removing columns.
+- Inspecting table definitions after changes.
+- Understanding implicit commits and data loss risks.
+- Recognizing MySQL-specific syntax differences.
 
 ---
 
-## 💡 Engineering Best Practices
-> - **Storage Decoupling:** Large binary files (images, PDFs, documents) must not be stored directly inside database rows to avoid severe engine and I/O bottlenecks; storing local paths or object storage URLs as `VARCHAR` is standard practice.
-> - **Statement Isolation:** Every independent SQL statement must terminate with a semicolon (`;`) to guarantee deterministic query parsing and prevent engine execution errors.
+## 🔄 SQL Server (T-SQL) vs. MySQL
+
+Some tutorial examples use SQL Server-specific data types and syntax.
+
+The following table summarizes alternatives used in MySQL.
+
+| Concept | SQL Server | MySQL Alternative |
+|---|---|---|
+| Boolean values | `bit` | `BOOLEAN` / `TINYINT(1)` / `BIT(1)` |
+| Currency | `money` | `DECIMAL(19,4)` |
+| Small currency | `smallmoney` | `DECIMAL(10,2)` |
+| Large Unicode text | `nvarchar(MAX)` | `LONGTEXT` |
+| Date and time | `smalldatetime` | `DATETIME` |
+| Unique identifier | `uniqueidentifier` | `CHAR(36)` / `BINARY(16)` |
+| Binary media | `image` | `BLOB` types / External file reference |
+| Fixed Unicode text | `nchar(n)` | `CHAR(n)` with Unicode character set |
+
+> **Note:** These are practical alternatives rather than exact behavioral equivalents. Storage characteristics, precision, constraints, and database-specific behavior may differ.
+
+---
+
+## 🛠️ Study Methodology
+
+Each SQL topic follows a structured learning process:
+
+1. Study the topic through university materials or tutorial videos.
+2. Write and execute SQL statements in MySQL Workbench.
+3. Examine query results and identify possible errors.
+4. Review technical accuracy and MySQL compatibility.
+5. Add detailed Turkish explanations and revision notes.
+6. Organize the completed exercises on GitHub.
+
+AI-assisted tools may be used for technical review, SQL dialect adaptation, and documentation improvements.
+
+The primary objective is to understand how each statement works rather than simply collect working SQL examples.
+
+---
+
+## ⚠️ Important Practice Notes
+
+- **Environment:** MySQL 8.x and MySQL Workbench.
+- **Practice Database:** `lab_db`.
+- **Data Safety:** Some scripts contain `DROP TABLE IF EXISTS`, which removes existing practice tables and their data.
+- **TRUNCATE:** Removes all table rows while preserving the table structure and cannot be rolled back as an ordinary MySQL transaction.
+- **SQL Statements:** Semicolons (`;`) are used to separate SQL statements.
+- **Documentation:** SQL explanations are written in Turkish for learning and university exam preparation.
+- **Scope:** These scripts are educational exercises, not production-ready database implementations.
+
+---
+
+## 🎯 Next Learning Topics
+
+The next module focuses on SQL filtering, conditional expressions, and sorting.
+
+**Planned topics:**
+- `WHERE`
+- `AND`, `OR`, `NOT`
+- `IN`, `BETWEEN`
+- `IS NULL`, `IS NOT NULL`
+- `LIKE`
+- `DISTINCT`
+- `ORDER BY`
+- `LIMIT`
+
+These topics will be documented in the upcoming `02-Filtering-and-Sorting` directory.
+
+---
+
+*This directory is part of my ongoing MySQL learning and practice repository.*
