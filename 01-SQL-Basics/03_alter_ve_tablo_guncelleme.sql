@@ -1,12 +1,19 @@
--- ==============================================================================
--- KONU: ALTER TABLE ile Tablo Yapısını Değiştirme (Sütun Ekleme, Silme, Güncelleme)
--- REFERANS: Murat Yücedağ SQL Dersleri (Ders 5 & 6)
--- ORTAM: MySQL Workbench / MySQL 8.0
--- ==============================================================================
 
+-- ============================================================
+-- KONU: ALTER TABLE ve Tablo Yapisi Degisiklikleri
+-- KAYNAK: Murat Yucedag SQL Dersleri 5-6
+-- ORTAM: MySQL 8.x / MySQL Workbench
+-- ============================================================
+
+CREATE DATABASE IF NOT EXISTS lab_db;
 USE lab_db;
 
--- 1. ÖRNEK TABLO OLUŞTURMA
+
+-- 1. ORNEK TABLO OLUSTURMA
+
+-- UYARI: Bu komut mevcut Ogrenci tablosunu siler.
+-- Sadece test veritabani icin kullanilmalidir.
+
 DROP TABLE IF EXISTS Ogrenci;
 
 CREATE TABLE Ogrenci (
@@ -17,59 +24,182 @@ CREATE TABLE Ogrenci (
     OgrBilgi TEXT
 );
 
--- Test için örnek bir kayıt ekleyelim:
-INSERT INTO Ogrenci (OgrNumara, OgrAd, OgrSoyad, OgrTC, OgrBilgi)
-VALUES ('101', 'Yusuf', 'İşçi', '12345678901', 'Yazılım Mühendisliği Öğrencisi');
+INSERT INTO Ogrenci
+    (OgrNumara, OgrAd, OgrSoyad, OgrTC, OgrBilgi)
+VALUES
+    ('101', 'Yusuf', 'Isci', '12345678901',
+     'Yazilim Muhendisligi Ogrencisi');
 
 SELECT * FROM Ogrenci;
+DESCRIBE Ogrenci;
 
 
--- 2. ALTER TABLE - TEK BİR SÜTUN EKLEME (ADD)
--- Tabloya 'notlar' adında 1 byte'lık (0-255 arası) tam sayı alanı ekliyoruz:
-ALTER TABLE Ogrenci ADD notlar TINYINT;
+-- 2. TEK SUTUN EKLEME (ADD COLUMN)
 
--- Tabloya veli adı için değişken metin alanı ekliyoruz:
-ALTER TABLE Ogrenci ADD veli VARCHAR(30);
+ALTER TABLE Ogrenci
+ADD COLUMN notlar TINYINT UNSIGNED;
+
+-- 0 ile 255 arasinda tam sayi saklayabilir.
+-- Bu aralik ogrenci notunu 0-100 ile sinirlamaz.
+
+ALTER TABLE Ogrenci
+ADD COLUMN veli VARCHAR(30);
+
+-- VARCHAR(30): En fazla 30 karakter.
+
+DESCRIBE Ogrenci;
 
 
--- 3. ALTER TABLE - ÇOKLU SÜTUN EKLEME (MSSQL vs MySQL Farkı)
--- MSSQL: alter table ogr add BaslamaTarih smalldatetime, OgrMahalle varchar(40)
--- MySQL: 'smalldatetime' tipi yoktur (DATETIME kullanılır). Çoklu kolonlar parantez içine alınır.
+-- 3. BIRDEN FAZLA SUTUN EKLEME
+
 ALTER TABLE Ogrenci ADD (
     BaslamaTarih DATETIME,
     OgrMahalle VARCHAR(40)
 );
 
+-- MySQL'de ADD (...) sozdizimi gecerlidir.
+-- Alternatif kullanim:
+--
+-- ALTER TABLE Ogrenci
+--     ADD COLUMN BaslamaTarih DATETIME,
+--     ADD COLUMN OgrMahalle VARCHAR(40);
 
--- 4. ALTER TABLE - SÜTUN SİLME (DROP COLUMN)
--- Tablodan tek bir sütunu kalıcı olarak kaldırma:
-ALTER TABLE Ogrenci DROP COLUMN BaslamaTarih;
+DESCRIBE Ogrenci;
 
--- Birden fazla sütunu tek sorguda silme:
-ALTER TABLE Ogrenci 
+
+-- 4. TEK SUTUN SILME
+
+ALTER TABLE Ogrenci
+DROP COLUMN BaslamaTarih;
+
+-- Sutun ve icindeki veriler tablodan kaldirilir.
+
+
+-- 5. BIRDEN FAZLA SUTUN SILME
+
+ALTER TABLE Ogrenci
     DROP COLUMN OgrMahalle,
     DROP COLUMN veli;
 
 
--- 5. MÜHENDİSLİK NOTLARI:
--- 1. DROP COLUMN komutunun geri dönüşü yoktur; o sütundaki tüm mevcut veriler silinir.
--- 2. Üzerinde FOREIGN KEY veya UNIQUE kısıtı olan sütunlar kısıt kaldırılmadan silinemez.
--- 3. Tablodaki son kalan tek sütun DROP COLUMN ile silinemez; tabloyu DROP TABLE ile silmek gerekir.
+-- 6. SON TABLO YAPISINI KONTROL ETME
 
--- Tablonun son yapısını ve verilerini doğrulayalım:
--- 6. TABLO MİMARİSİNİ DOĞRULAMA (DESCRIBE / DESC)
--- NOT: 'SELECT * FROM Ogrenci' tablodaki verileri (satırları) getirirken;
--- 'DESCRIBE Ogrenci' tablonun teknik röntgenini çeker.
--- Kolon isimleri, veri tipleri, NULL izinleri, PRIMARY KEY ve varsayılan (DEFAULT) değerleri 
--- doğrulamak için mimari değişikliklerden (ALTER TABLE) sonra mutlaka çalıştırılır.
 DESCRIBE Ogrenci;
 
--- Tablodaki mevcut verileri kontrol etme:
+-- Tablonun tam olusturma tanimini gosterir.
+SHOW CREATE TABLE Ogrenci;
+
+-- Mevcut kayitlari listeler.
 SELECT * FROM Ogrenci;
 
 
--- 7. MÜHENDİSLİK NOTLARI:
--- 1. DROP COLUMN komutunun geri dönüşü yoktur; o sütundaki tüm mevcut veriler silinir.
--- 2. Üzerinde FOREIGN KEY veya UNIQUE kısıtı olan sütunlar kısıt kaldırılmadan silinemez.
--- 3. Tablodaki son kalan tek sütun DROP COLUMN ile silinemez; tabloyu DROP TABLE ile silmek gerekir.
--- 4. Mimari incelemelerde DESCRIBE komutu SELECT'e kıyasla kısıtları (Constraints) doğrudan gösterdiği için tercih edilir.
+/*
+============================================================
+KONU TEKRARI: ALTER TABLE
+============================================================
+
+1. ALTER TABLE NEDIR?
+
+   Mevcut bir tablonun yapisini degistirmek
+   icin kullanilan DDL komutudur.
+
+   Tabloyu yeniden olusturmadan sutun ekleme,
+   silme ve bazi sutun ozelliklerini
+   degistirme islemleri yapilabilir.
+
+2. ADD COLUMN
+
+   Genel kullanim:
+
+   ALTER TABLE Tablo
+   ADD COLUMN YeniSutun VARCHAR(20);
+
+   Birden fazla sutun:
+
+   ALTER TABLE Tablo ADD (
+       Sutun1 INT,
+       Sutun2 VARCHAR(30)
+   );
+
+   Alternatif:
+
+   ALTER TABLE Tablo
+       ADD COLUMN Sutun1 INT,
+       ADD COLUMN Sutun2 VARCHAR(30);
+
+3. DROP COLUMN
+
+   Genel kullanim:
+
+   ALTER TABLE Tablo
+   DROP COLUMN SutunAdi;
+
+   Birden fazla sutun:
+
+   ALTER TABLE Tablo
+       DROP COLUMN Sutun1,
+       DROP COLUMN Sutun2;
+
+   Dikkat:
+   Silinen sutundaki veriler kaybolur.
+   Index ve constraint bagimliliklari
+   islemin yapilmasini etkileyebilir.
+
+4. DESCRIBE
+
+   DESCRIBE Tablo;
+
+   Sutunlarin veri tipini, NULL durumunu,
+   anahtar bilgisini ve varsayilan degerini
+   ozet olarak gosterir.
+
+   DESC Tablo;
+   ayni amacla kullanilabilir.
+
+5. SHOW CREATE TABLE
+
+   SHOW CREATE TABLE Tablo;
+
+   Tablonun olusturma SQL tanimini gosterir.
+   Constraint ve index ayrintilarini
+   incelemek icin kullanilabilir.
+
+6. DDL VE TRANSACTION
+
+   ALTER TABLE MySQL'de genellikle
+   implicit COMMIT olusturur.
+
+   Yapilan degisiklikler normal bir
+   ROLLBACK ile geri alinamaz.
+
+   Bu nedenle yapisal degisikliklerden once
+   veri kaybi riski kontrol edilmelidir.
+
+7. PRIMARY KEY / UNIQUE / FOREIGN KEY
+
+   Bu kisitlarla iliskili sutunlarda
+   yapisal degisiklikler ek kontroller
+   gerektirebilir.
+
+   Sutun silinmesi indexleri etkileyebilir.
+   Her durumda once constraint yapisi
+   incelenmelidir.
+
+8. SINAVDA HATIRLA
+
+   CREATE TABLE  -> Yeni tablo olusturur.
+   ALTER TABLE   -> Mevcut tabloyu degistirir.
+   ADD COLUMN    -> Sutun ekler.
+   DROP COLUMN   -> Sutun siler.
+   DESCRIBE      -> Tablo yapisini ozetler.
+   SHOW CREATE   -> Tablo tanimini gosterir.
+
+   SELECT * FROM Tablo;
+   -> Kayitlari listeler.
+
+   DESCRIBE Tablo;
+   -> Sutun ozelliklerini listeler.
+
+============================================================
+*/
+
